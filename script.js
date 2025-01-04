@@ -70,19 +70,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function drawCircle(ctx, standingAt, facingTo, pointingTo, angle = null) {
-        // Clear the canvas
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        // Ensure canvas dimensions are set correctly
+        const canvasWidth = ctx.canvas.width;
+        const canvasHeight = ctx.canvas.height;
 
         // Circle center and radius
-        const centerX = ctx.canvas.width / 2;
-        const centerY = ctx.canvas.height / 2;
-        const radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 - 40; // Properly defined circle radius
+        const centerX = canvasWidth / 2;
+        const centerY = canvasHeight / 2;
+        const radius = Math.min(canvasWidth, canvasHeight) / 2 - 40; // Ensure circle fits within canvas
+
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        // DEBUG: Log drawing dimensions
+        console.log("Drawing circle with dimensions:", {
+            centerX,
+            centerY,
+            radius,
+            canvasWidth,
+            canvasHeight,
+        });
 
         // Draw the circle
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = "black"; // Ensure the circle is black
-        ctx.lineWidth = 2; // Slightly thicker circle
+        ctx.strokeStyle = "black"; // Ensure circle is black
+        ctx.lineWidth = 2; // Thicker circle stroke
         ctx.stroke();
 
         // Draw the upright line (facing direction)
