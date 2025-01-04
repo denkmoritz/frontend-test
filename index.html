@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perspective Taking Test</title>
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 20px auto;
+        }
+        img {
+            max-width: 500px;
+            display: block;
+            margin: 20px auto;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Perspective Taking Test</h1>
+    <img id="object-array" src="object_array.png" alt="Object Array">
+    <canvas id="circle-canvas" width="500" height="500"></canvas>
+    <div>
+        <button id="submit-button">Submit</button>
+    </div>
+    <p id="task-info"></p>
+</body>
+</html>
