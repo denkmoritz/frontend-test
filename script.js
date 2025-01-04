@@ -71,17 +71,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function drawCircle(ctx, standingAt, facingTo, pointingTo, angle = null) {
         // Clear the canvas
-        ctx.clearRect(0, 0, 400, 400);
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        // Circle center and radius
+        const centerX = ctx.canvas.width / 2;
+        const centerY = ctx.canvas.height / 2;
+        const radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 - 20; // Padding from edges
 
         // Draw the circle
         ctx.beginPath();
-        ctx.arc(200, 200, 150, 0, 2 * Math.PI); // Adjusted size
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = "black"; // Ensure circle is visible
         ctx.stroke();
 
         // Draw the upright line (facing direction)
         ctx.beginPath();
-        ctx.moveTo(200, 200);
-        ctx.lineTo(200, 50);
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX, centerY - radius); // Line pointing straight up
         ctx.strokeStyle = "black";
         ctx.stroke();
 
@@ -89,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (angle !== null) {
             const radians = ((angle - 90) * Math.PI) / 180; // Adjust for canvas coordinate system
             ctx.beginPath();
-            ctx.moveTo(200, 200);
-            ctx.lineTo(200 + 150 * Math.cos(radians), 200 + 150 * Math.sin(radians));
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius * Math.cos(radians), centerY + radius * Math.sin(radians));
             ctx.strokeStyle = "orange";
             ctx.stroke();
         }
@@ -98,14 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Draw labels
         ctx.font = "14px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(standingAt, 200, 230); // Center label
-        ctx.fillText(facingTo, 200, 40); // Top label
+        ctx.fillText(standingAt, centerX, centerY + radius + 20); // Center label
+        ctx.fillText(facingTo, centerX, centerY - radius - 10); // Top label
 
         // Draw dynamic pointing label if an angle is provided
         if (angle !== null) {
             const radians = ((angle - 90) * Math.PI) / 180;
-            const x = 200 + 150 * Math.cos(radians);
-            const y = 200 + 150 * Math.sin(radians);
+            const x = centerX + radius * Math.cos(radians);
+            const y = centerY + radius * Math.sin(radians);
             ctx.fillText(pointingTo, x, y);
         }
     }
@@ -136,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     taskCanvas.addEventListener("mousedown", (e) => {
                         const rect = taskCanvas.getBoundingClientRect();
-                        const x = e.clientX - rect.left - 200;
-                        const y = e.clientY - rect.top - 200;
+                        const x = e.clientX - rect.left - taskCtx.canvas.width / 2;
+                        const y = e.clientY - rect.top - taskCtx.canvas.height / 2;
 
                         // Compute the angle
                         loggedAngle = (Math.atan2(y, x) * 180) / Math.PI;
