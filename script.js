@@ -76,7 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Circle center and radius
         const centerX = ctx.canvas.width / 2;
         const centerY = ctx.canvas.height / 2;
-        const radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 - 40; // Smaller circle, more padding
+        const radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 - 20; // Adjusted size for smaller circle
+
+        // Draw the circle
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = "black"; // Ensure circle is black
+        ctx.stroke();
 
         // Draw the upright line (facing direction)
         ctx.beginPath();
@@ -100,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Draw labels
         ctx.font = "16px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(standingAt, centerX, centerY); // Center label placed correctly
+        ctx.fillText(standingAt, centerX, centerY); // Center label placed in the middle of the circle
         ctx.fillText(facingTo, centerX, centerY - radius - 10); // Top label
 
         // Draw dynamic pointing label if an angle is provided
