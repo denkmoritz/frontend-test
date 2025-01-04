@@ -2,14 +2,18 @@ const backendUrl = "http://localhost:5001"; // Replace with your backend URL whe
 let taskId = 0;
 let loggedAngle = null; // Start with no line drawn
 let currentTask = null;
+let userName = ""; // Store user's name
 
 document.addEventListener('DOMContentLoaded', () => {
     // Sections
+    const nameSection = document.getElementById("name-section");
     const instructionSection = document.getElementById("instruction");
     const exampleSection = document.getElementById("example-section");
     const taskSection = document.getElementById("task-section");
 
-    // Buttons
+    // Inputs and Buttons
+    const nameInput = document.getElementById("name-input");
+    const startButton = document.getElementById("start-button");
     const exampleButton = document.getElementById("example-button");
     const startTasksButton = document.getElementById("start-tasks-button");
     const submitButton = document.getElementById("submit-button");
@@ -24,8 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const exampleCtx = exampleCanvas.getContext("2d");
     const taskCtx = taskCanvas.getContext("2d");
 
-    // Display Instruction Section First
-    instructionSection.style.display = "block";
+    // Display Name Section First
+    nameSection.style.display = "block";
+
+    // Handle Name Submission
+    startButton.addEventListener("click", () => {
+        userName = nameInput.value.trim();
+        if (userName) {
+            nameSection.style.display = "none";
+            instructionSection.style.display = "block";
+        } else {
+            alert("Please enter your name to continue.");
+        }
+    });
 
     // Handle Navigation to Example
     exampleButton.addEventListener("click", () => {
@@ -47,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`${backendUrl}/submit-task`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ task_id: taskId, logged_angle: loggedAngle })
+            body: JSON.stringify({ task_id: taskId, logged_angle: loggedAngle, name: userName })
         }).then(() => {
             taskId++;
             loadTask();
@@ -56,40 +71,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function drawCircle(ctx, standingAt, facingTo, pointingTo, angle = null) {
         // Clear the canvas
-        ctx.clearRect(0, 0, 500, 500);
+        ctx.clearRect(0, 0, 400, 400);
 
         // Draw the circle
         ctx.beginPath();
-        ctx.arc(250, 250, 200, 0, 2 * Math.PI);
+        ctx.arc(200, 200, 150, 0, 2 * Math.PI); // Adjusted size
         ctx.stroke();
 
         // Draw the upright line (facing direction)
         ctx.beginPath();
-        ctx.moveTo(250, 250);
-        ctx.lineTo(250, 50);
+        ctx.moveTo(200, 200);
+        ctx.lineTo(200, 50);
+        ctx.strokeStyle = "black";
         ctx.stroke();
 
         // Draw the pointing line if an angle is provided
         if (angle !== null) {
             const radians = ((angle - 90) * Math.PI) / 180; // Adjust for canvas coordinate system
             ctx.beginPath();
-            ctx.moveTo(250, 250);
-            ctx.lineTo(250 + 200 * Math.cos(radians), 250 + 200 * Math.sin(radians));
+            ctx.moveTo(200, 200);
+            ctx.lineTo(200 + 150 * Math.cos(radians), 200 + 150 * Math.sin(radians));
             ctx.strokeStyle = "orange";
             ctx.stroke();
         }
 
         // Draw labels
-        ctx.font = "16px Arial";
+        ctx.font = "14px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(standingAt, 250, 270); // Center label
-        ctx.fillText(facingTo, 250, 40); // Top label
+        ctx.fillText(standingAt, 200, 230); // Center label
+        ctx.fillText(facingTo, 200, 40); // Top label
 
         // Draw dynamic pointing label if an angle is provided
         if (angle !== null) {
-            const radians = ((angle - 90) * Math.PI) / 180; // Adjust for canvas coordinate system
-            const x = 250 + 200 * Math.cos(radians);
-            const y = 250 + 200 * Math.sin(radians);
+            const radians = ((angle - 90) * Math.PI) / 180;
+            const x = 200 + 150 * Math.cos(radians);
+            const y = 200 + 150 * Math.sin(radians);
             ctx.fillText(pointingTo, x, y);
         }
     }
@@ -120,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     taskCanvas.addEventListener("mousedown", (e) => {
                         const rect = taskCanvas.getBoundingClientRect();
-                        const x = e.clientX - rect.left - 250;
-                        const y = e.clientY - rect.top - 250;
+                        const x = e.clientX - rect.left - 200;
+                        const y = e.clientY - rect.top - 200;
 
                         // Compute the angle
                         loggedAngle = (Math.atan2(y, x) * 180) / Math.PI;

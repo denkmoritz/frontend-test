@@ -17,16 +17,16 @@
             margin: 20px auto;
         }
         img {
-            max-width: 500px;
+            max-width: 300px; /* Reduced size */
             display: block;
             margin: 20px auto;
         }
-        button {
+        button, input {
             margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
         }
-        #instruction, #example-section, #task-section {
+        #name-section, #instruction, #example-section, #task-section {
             font-size: 16px;
             margin: 20px;
             display: none;
@@ -35,6 +35,12 @@
 </head>
 <body>
     <h1>Perspective Taking Test</h1>
+
+    <div id="name-section">
+        <p>Please enter your name to start:</p>
+        <input type="text" id="name-input" placeholder="Enter your name" required>
+        <button id="start-button">Start</button>
+    </div>
 
     <div id="instruction">
         <p>This is a test of your ability to imagine different perspectives or orientations in space.</p>
@@ -47,14 +53,14 @@
 
     <div id="example-section">
         <img id="object-array" src="object_array.png" alt="Object Array">
-        <canvas id="circle-canvas" width="500" height="500"></canvas>
+        <canvas id="circle-canvas" width="400" height="400"></canvas> <!-- Smaller canvas -->
         <p id="task-info"></p>
         <button id="start-tasks-button">Start Tasks</button>
     </div>
 
     <div id="task-section">
         <img id="object-array-task" src="object_array.png" alt="Object Array">
-        <canvas id="circle-canvas-task" width="500" height="500"></canvas>
+        <canvas id="circle-canvas-task" width="400" height="400"></canvas> <!-- Smaller canvas -->
         <p id="task-info-task"></p>
         <button id="submit-button">Submit</button>
     </div>
