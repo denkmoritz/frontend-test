@@ -72,25 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawCircle(ctx, standingAt, facingTo, pointingTo, angle = null) {
         // Clear the canvas
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    
+
         // Circle center and radius
         const centerX = ctx.canvas.width / 2;
         const centerY = ctx.canvas.height / 2;
         const radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 - 40; // Smaller circle, more padding
-    
-        // Draw the circle
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = "black"; // Circle stays black
-        ctx.stroke();
-    
+
         // Draw the upright line (facing direction)
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
         ctx.lineTo(centerX, centerY - radius); // Line pointing straight up
         ctx.strokeStyle = "black"; // Upright line stays black
         ctx.stroke();
-    
+
         // Draw the pointing line if an angle is provided
         if (angle !== null) {
             const radians = ((angle - 90) * Math.PI) / 180; // Adjust for canvas coordinate system
@@ -102,26 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.stroke();
             ctx.lineWidth = 1; // Reset line width to default
         }
-    
-        // Draw labels
-        ctx.font = "16px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(standingAt, centerX, centerY + 5); // Center label (adjusted to center of circle)
-        ctx.fillText(facingTo, centerX, centerY - radius - 10); // Top label
-    
-        // Draw dynamic pointing label if an angle is provided
-        if (angle !== null) {
-            const radians = ((angle - 90) * Math.PI) / 180;
-            const x = centerX + radius * Math.cos(radians);
-            const y = centerY + radius * Math.sin(radians);
-            ctx.fillText(pointingTo, x, y);
-        }
-    
 
         // Draw labels
         ctx.font = "16px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(standingAt, centerX, centerY + radius + 20); // Center label
+        ctx.fillText(standingAt, centerX, centerY); // Center label placed correctly
         ctx.fillText(facingTo, centerX, centerY - radius - 10); // Top label
 
         // Draw dynamic pointing label if an angle is provided
