@@ -1,6 +1,6 @@
 const backendUrl = "http://localhost:5001"; // Replace with your backend URL when deployed
 let taskId = 0;
-let loggedAngle = 0;
+let loggedAngle = null; // Start with no line drawn
 let currentTask = null;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function drawCircle(ctx, standingAt, facingTo, pointingTo, angle) {
+    function drawCircle(ctx, standingAt, facingTo, pointingTo, angle = null) {
         // Clear the canvas
         ctx.clearRect(0, 0, 500, 500);
 
@@ -69,13 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.lineTo(250, 50);
         ctx.stroke();
 
-        // Draw the pointing line
-        const radians = (angle * Math.PI) / 180;
-        ctx.beginPath();
-        ctx.moveTo(250, 250);
-        ctx.lineTo(250 + 200 * Math.cos(radians), 250 + 200 * Math.sin(radians));
-        ctx.strokeStyle = "orange";
-        ctx.stroke();
+        // Draw the pointing line if an angle is provided
+        if (angle !== null) {
+            const radians = (angle * Math.PI) / 180;
+            ctx.beginPath();
+            ctx.moveTo(250, 250);
+            ctx.lineTo(250 + 200 * Math.cos(radians), 250 + 200 * Math.sin(radians));
+            ctx.strokeStyle = "orange";
+            ctx.stroke();
+        }
 
         // Draw labels
         ctx.font = "16px Arial";
@@ -83,10 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText(standingAt, 250, 270); // Center label
         ctx.fillText(facingTo, 250, 40); // Top label
 
-        // Draw dynamic pointing label
-        const x = 250 + 200 * Math.cos(radians);
-        const y = 250 + 200 * Math.sin(radians);
-        ctx.fillText(pointingTo, x, y);
+        // Draw dynamic pointing label if an angle is provided
+        if (angle !== null) {
+            const radians = (angle * Math.PI) / 180;
+            const x = 250 + 200 * Math.cos(radians);
+            const y = 250 + 200 * Math.sin(radians);
+            ctx.fillText(pointingTo, x, y);
+        }
     }
 
     function loadExample() {
@@ -109,9 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitButton.style.display = "none";
                 } else {
                     currentTask = data;
-                    loggedAngle = 0; // Reset the angle
+                    loggedAngle = null; // Reset the angle to make the line invisible initially
                     taskInfoTask.textContent = `Imagine you are standing at the ${data.standing_at}, facing the ${data.facing_to}, and pointing to the ${data.pointing_to}.`;
-                    drawCircle(taskCtx, data.standing_at, data.facing_to, data.pointing_to, loggedAngle);
+                    drawCircle(taskCtx, data.standing_at, data.facing_to, data.pointing_to);
 
                     taskCanvas.addEventListener("mousedown", (e) => {
                         const rect = taskCanvas.getBoundingClientRect();
