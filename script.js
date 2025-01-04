@@ -81,14 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Draw the circle
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = "black"; // Ensure circle is visible
+        ctx.strokeStyle = "black"; // Circle stays black
         ctx.stroke();
 
         // Draw the upright line (facing direction)
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
         ctx.lineTo(centerX, centerY - radius); // Line pointing straight up
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = "black"; // Upright line stays black
         ctx.stroke();
 
         // Draw the pointing line if an angle is provided
@@ -97,12 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
             ctx.lineTo(centerX + radius * Math.cos(radians), centerY + radius * Math.sin(radians));
-            ctx.strokeStyle = "orange";
+            ctx.strokeStyle = "orange"; // Only the draggable line is orange
+            ctx.lineWidth = 3; // Thicker draggable line
             ctx.stroke();
+            ctx.lineWidth = 1; // Reset line width to default
         }
 
         // Draw labels
-        ctx.font = "14px Arial";
+        ctx.font = "16px Arial";
         ctx.textAlign = "center";
         ctx.fillText(standingAt, centerX, centerY + radius + 20); // Center label
         ctx.fillText(facingTo, centerX, centerY - radius - 10); // Top label
