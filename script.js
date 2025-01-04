@@ -1,4 +1,4 @@
-const backendUrl = "http://localhost:5001"; // Replace with your backend URL when deployed
+const backendUrl = "http://localhost:5000"; // Replace with your backend URL when deployed
 let taskId = 0;
 let loggedAngle = 0;
 let currentTask = null;
