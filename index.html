@@ -22,28 +22,41 @@
             margin: 20px auto;
         }
         button {
-            margin-top: 10px;
+            margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
         }
-        #instruction {
+        #instruction, #example-section, #task-section {
             font-size: 16px;
             margin: 20px;
+            display: none;
         }
     </style>
 </head>
 <body>
     <h1>Perspective Taking Test</h1>
+
     <div id="instruction">
-        This is a test of your ability to imagine different perspectives or orientations in space.<br>
-        For Task 0, the line will already be set to the correct position as an example.<br>
-        For the actual tasks, you will need to drag the line to indicate the direction.<br>
+        <p>This is a test of your ability to imagine different perspectives or orientations in space.</p>
+        <p>
+            For Task 0, the line will already be set to the correct position as an example.<br>
+            For the actual tasks, you will need to drag the line to indicate the direction.
+        </p>
+        <button id="example-button">To the Example</button>
     </div>
-    <img id="object-array" src="object_array.png" alt="Object Array">
-    <canvas id="circle-canvas" width="500" height="500"></canvas>
-    <div>
+
+    <div id="example-section">
+        <img id="object-array" src="object_array.png" alt="Object Array">
+        <canvas id="circle-canvas" width="500" height="500"></canvas>
+        <p id="task-info"></p>
+        <button id="start-tasks-button">Start Tasks</button>
+    </div>
+
+    <div id="task-section">
+        <img id="object-array-task" src="object_array.png" alt="Object Array">
+        <canvas id="circle-canvas-task" width="500" height="500"></canvas>
+        <p id="task-info-task"></p>
         <button id="submit-button">Submit</button>
     </div>
-    <p id="task-info"></p>
 </body>
 </html>
