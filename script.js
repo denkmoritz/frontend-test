@@ -76,12 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Circle center and radius
         const centerX = ctx.canvas.width / 2;
         const centerY = ctx.canvas.height / 2;
-        const radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 - 20; // Adjusted size for smaller circle
+        const radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 - 40; // Properly defined circle radius
 
         // Draw the circle
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = "black"; // Ensure circle is black
+        ctx.strokeStyle = "black"; // Ensure the circle is black
+        ctx.lineWidth = 2; // Slightly thicker circle
         ctx.stroke();
 
         // Draw the upright line (facing direction)
@@ -89,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.moveTo(centerX, centerY);
         ctx.lineTo(centerX, centerY - radius); // Line pointing straight up
         ctx.strokeStyle = "black"; // Upright line stays black
+        ctx.lineWidth = 1; // Default line width
         ctx.stroke();
 
         // Draw the pointing line if an angle is provided
