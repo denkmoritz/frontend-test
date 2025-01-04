@@ -1,4 +1,4 @@
-const backendUrl = "http://localhost:5001"; // Replace with your backend URL when deployed
+const backendUrl = "http://localhost:5000"; // Replace with your backend URL when deployed
 let taskId = 0;
 let loggedAngle = null; // Start with no line drawn
 let currentTask = null;
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Draw the pointing line if an angle is provided
         if (angle !== null) {
-            const radians = (angle * Math.PI) / 180;
+            const radians = ((angle - 90) * Math.PI) / 180; // Adjust for canvas coordinate system
             ctx.beginPath();
             ctx.moveTo(250, 250);
             ctx.lineTo(250 + 200 * Math.cos(radians), 250 + 200 * Math.sin(radians));
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Draw dynamic pointing label if an angle is provided
         if (angle !== null) {
-            const radians = (angle * Math.PI) / 180;
+            const radians = ((angle - 90) * Math.PI) / 180; // Adjust for canvas coordinate system
             const x = 250 + 200 * Math.cos(radians);
             const y = 250 + 200 * Math.sin(radians);
             ctx.fillText(pointingTo, x, y);
@@ -125,7 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Compute the angle
                         loggedAngle = (Math.atan2(y, x) * 180) / Math.PI;
-                        loggedAngle = (loggedAngle + 360) % 360;
+                        loggedAngle = (loggedAngle + 360) % 360; // Normalize to [0, 360)
+                        loggedAngle = (loggedAngle + 90) % 360; // Adjust for canvas coordinate system
 
                         // Update the drawing
                         drawCircle(taskCtx, data.standing_at, data.facing_to, data.pointing_to, loggedAngle);
